@@ -12,8 +12,8 @@ const FoodDisplay = ({ category }) => {
       <div className="food-display-list">
         {food_list.map((item) => (
           <FoodItem
-            key={item.id} // ✅ Use stable unique key
-            id={item.id}
+            key={item._id} // ✅ Use stable unique key
+            id={item._id}
             name={item.name}
             price={item.price}
             description={item.description}

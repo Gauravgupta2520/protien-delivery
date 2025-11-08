@@ -44,8 +44,6 @@
   position: relative;
 }
 
-
-
 .food-item-img-container .addd{
   display : flex;
   width: 35px;
@@ -73,6 +71,14 @@
 .food-item-img-container .remove:hover{
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
+}
+
+.food-item-counter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  gap: 15px;
 }
 
 .food-item-counter img{
