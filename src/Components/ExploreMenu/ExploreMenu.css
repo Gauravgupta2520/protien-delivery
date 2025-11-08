@@ -1,0 +1,73 @@
+.explore-menu-list {
+  display: flex;               /* Enables horizontal layout */
+  flex-direction: row;         /* Align items in a row */
+  align-items: center;         /* Vertically center items */
+  gap: 24px;                   /* Space between items */
+  overflow-x: auto;            /* Enables horizontal scroll */
+  scroll-behavior: smooth;     /* Smooth scrolling */
+  padding: 20px 0;
+  -webkit-overflow-scrolling: touch; /* Improves mobile scroll */
+}
+
+.explore-menu-list::-webkit-scrollbar {
+  display: none;               /* Hides scrollbar */
+}
+
+
+.explore-menu{
+  animation: fadeIn 1s ease-in-out;
+}
+
+.explore-menu h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}   
+
+.explore-menu-list {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.explore-menu-text{
+    font-size: 1.2rem;
+    color: #555;    
+}
+
+.explore-menu-list-item img{
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: 0.3s ease-in-out;
+
+}
+
+
+
+.explore-menu-list-item img:hover{
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.explore-menu-list-item p{
+    margin-top: 10px;
+    font-weight: 500;
+    color:#747474;
+    cursor: pointer;
+    
+}
+
+.explore-menu hr{
+    margin-top: 30px;
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.explore-menu-list-item .active{
+    border-bottom: 2px solid #ff8a00;
+    font-weight: 600;
+    color: #ff8a00;
+
+}
