@@ -15,6 +15,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
       <div className="food-info">
         <div className="food-item-name-rating">
           <p>{name}</p>
+          {console.log(id)}
           <img src={assets.rating_starts} alt="rating" />
         </div>
         <p className="food-item-description">{description}</p>
@@ -27,6 +28,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
             src={assets.add_icon_white}
             alt="add"
           />
+         
         ) : (
           <div className="food-item-counter">
             <img
