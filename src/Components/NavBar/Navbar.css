@@ -279,3 +279,140 @@
 @media (max-width: 600px){
     .navbar-menu{ display: none; }
 }
+
+/* Signin modal styles */
+.signin-modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+  animation: fadeIn 0.25s ease-out;
+  backdrop-filter: blur(2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signin-modal{
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.signin-modal-close{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.signin-modal-close:hover{
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+  transform: scale(1.08);
+}
+
+.signin-modal-close:active{
+  transform: scale(0.95);
+}
+
+/* Override signin-page styles when shown in modal */
+.signin-modal .signin-page{
+  position: static;
+  width: 100%;
+  min-height: auto;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+
+.signin-modal .signin-container{
+  border-radius: 0;
+  box-shadow: none;
+  max-width: 100%;
+  width: 100%;
+  background: transparent;
+}
+
+.signin-modal .signin-form{
+  padding: 40px 32px;
+  text-align: center;
+  background: transparent;
+}
+
+.signin-modal .signin-title{
+  margin-bottom: 28px;
+  font-size: 26px;
+}
+
+.signin-modal .signin-input{
+  margin-bottom: 18px;
+  padding: 14px 14px;
+}
+
+.signin-modal .signin-button{
+  margin-bottom: 18px;
+  padding: 14px 16px;
+}
+
+.signin-modal .signin-terms{
+  margin-bottom: 18px;
+  font-size: 13px;
+  gap: 8px;
+}
+
+/* Responsive for modal */
+@media (max-width: 480px){
+  .signin-modal{
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  .signin-modal .signin-form{
+    padding: 28px 20px;
+  }
+  .signin-modal .signin-title{
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+}

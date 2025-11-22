@@ -1,6 +1,12 @@
 import React from 'react'
 import './Footer.css'
 
+import logo from '../../assets/frontend_assets/logo.png'    
+import facebook_icon from '../../assets/frontend_assets/facebook_icon.png'
+import twitter_icon from '../../assets/frontend_assets/twitter_icon.png'
+import linkedin_icon from '../../assets/frontend_assets/linkedin_icon.png'
+  
+
 const Footer = () => {
   return (
     <div className='footer' id='footer'>
@@ -9,7 +15,7 @@ const Footer = () => {
 
         {/* LEFT SECTION */}
         <div className="footer-content-left">
-          <img src="/assets/logo.png" alt="logo" />
+          <img src={logo} alt="logo" />
 
           <p>
             Our mission is to provide fresh, healthy, and high-protein meals that help people 
@@ -18,9 +24,10 @@ const Footer = () => {
           </p>
 
           <div className="footer-social-icons">
-            <img src="/assets/facebook_icon.png" alt="Facebook" />
-            <img src="/assets/twitter_icon.png" alt="Twitter" />
-            <img src="/assets/insta_icon.png" alt="Instagram" />
+            <img src={facebook_icon} alt="Facebook" />
+            <img src={linkedin_icon} alt="LinkedIn" />
+            <img src={twitter_icon} alt="Twitter" />
+            
           </div>
         </div>
 

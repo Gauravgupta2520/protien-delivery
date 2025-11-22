@@ -15,6 +15,11 @@
   bottom: 0;
 }
 
+/* When used inside modal, remove page background */
+.signin-modal .signin-page {
+  background: transparent;
+}
+
 .signin-container {
   background: white;
   border-radius: 15px;
