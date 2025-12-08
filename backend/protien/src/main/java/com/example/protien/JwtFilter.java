@@ -1,8 +1,11 @@
 package com.example.protien;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,28 +24,44 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        // Get Authorization header
+        String requestPath = request.getRequestURI();
+
+        // Skip JWT validation for public endpoints (signup and login)
+        if (requestPath.contains("/api/users/login") || requestPath.contains("/api/users/signup")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // For protected endpoints, validate JWT
         String authHeader = request.getHeader("Authorization");
 
-        // Check if header is present and starts with "Bearer "
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
             try {
-                // Validate token
                 if (jwtUtil.validateToken(token)) {
                     String email = jwtUtil.extractEmail(token);
-                    System.out.println("JWT valid for user: " + email);
-                    // TODO: Later you can set user details in Spring Security context
-                } else {
-                    System.out.println("JWT invalid or expired");
+
+                    // Create Authentication object
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    email,
+                                    null,
+                                    new ArrayList<>()  // empty roles for now
+                            );
+
+                    // Set authentication in SecurityContext
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                    System.out.println("✅ Authenticated user: " + email);
                 }
             } catch (Exception e) {
-                System.out.println("JWT parsing error: " + e.getMessage());
+                System.out.println("❌ JWT Error: " + e.getMessage());
             }
+        } else {
+            System.out.println("⚠️  No Bearer token found for protected endpoint: " + requestPath);
         }
 
-        // Continue filter chain
         filterChain.doFilter(request, response);
     }
 }

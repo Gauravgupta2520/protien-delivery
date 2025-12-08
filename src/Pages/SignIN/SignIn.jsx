@@ -33,10 +33,11 @@ function SignIn() {
         body: JSON.stringify(payload),
       });
 
-      const result = await res.text();
-      setMessage(result);
+      // Expect JSON { success: boolean, message: string, data?: any }
+      const result = await res.json();
+      setMessage(result.message || JSON.stringify(result));
 
-      if (result.includes("successful")) {
+      if (result.success) {
         setFormData({ name: "", email: "", password: "" });
 
         if (mode === "Login") {
