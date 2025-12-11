@@ -136,6 +136,35 @@ public class UserController {
         return new ApiResponse(true, "Password updated");
     }
 
+    // -------------------------------
+    // DEBUG — Echo request headers (dev-only) to confirm server received Authorization
+    // -------------------------------
+    @GetMapping("/debug/headers")
+    public ApiResponse debugHeaders(jakarta.servlet.http.HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        String masked = null;
+        if (auth != null) {
+            // mask token for logs: show Bearer and first/last 6 chars
+            if (auth.startsWith("Bearer ")) {
+                String token = auth.substring(7).trim();
+                if (token.length() > 12) {
+                    masked = "Bearer " + token.substring(0, 6) + "..." + token.substring(token.length() - 6);
+                } else {
+                    masked = "Bearer " + token;
+                }
+            } else {
+                masked = auth;
+            }
+        }
+
+        java.util.Map<String,Object> out = new java.util.HashMap<>();
+        out.put("authorization_raw", auth);
+        out.put("authorization_masked", masked);
+        java.security.Principal p = request.getUserPrincipal();
+        out.put("principal", p != null ? p.getName() : null);
+        return new ApiResponse(true, "Headers captured", out);
+    }
+
     // *******************************
     // ApiResponse Inner Class
     // *******************************
