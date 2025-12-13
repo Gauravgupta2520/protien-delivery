@@ -12,7 +12,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "MY_SECRET_KEY_123MY_SECRET_KEY_123"; 
+    private final String SECRET_KEY = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6"; 
     // KEY MUST BE AT LEAST 32 CHARACTERS FOR HS256
 
     // Generate token

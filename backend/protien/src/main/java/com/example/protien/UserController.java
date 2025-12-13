@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+//importing path variable annotation
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/users")
@@ -74,33 +76,23 @@ public class UserController {
     // *******************************
     // GET ALL USERS (Protected)
     // *******************************
-    @GetMapping("/")
-    public ApiResponse getAllUsers(org.springframework.security.core.Authentication authentication) {
-        // If Spring Security allowed the request through, Authentication will be present and valid
-        if (authentication != null && authentication.isAuthenticated()) {
-            logger.info("getAllUsers called by={}", authentication.getName());
-            List<User> users = userService.getAllUsers();
-            return new ApiResponse(true, "Users fetched successfully", users);
-        }
-        return new ApiResponse(false, "Access denied: Invalid or missing token");
-    }
+  @GetMapping
+public ApiResponse getAllUsers() {
+    List<User> users = userService.getAllUsers();
+    return new ApiResponse(true, "Users fetched successfully", users);
+}
 
     // -------------------------------
     // GET — Fetch user by ID (protected)
     // -------------------------------
     @GetMapping("/{id}")
-    public ApiResponse getUserById(@org.springframework.web.bind.annotation.PathVariable Long id,
-                                   org.springframework.security.core.Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            logger.info("getUserById called by={} for id={}", authentication.getName(), id);
-            User user = userService.getUserById(id);
-            if (user == null) {
-                return new ApiResponse(false, "User not found");
-            }
-            return new ApiResponse(true, "User fetched successfully", user);
-        }
-        return new ApiResponse(false, "Access denied: Invalid or missing token");
+public ApiResponse getUserById(@PathVariable Long id) {
+    User user = userService.getUserById(id);
+    if (user == null) {
+        return new ApiResponse(false, "User not found");
     }
+    return new ApiResponse(true, "User fetched successfully", user);
+}
 
     // -------------------------------
     // DEBUG — Check whether a persisted user has a stored password (dev-only)
@@ -134,6 +126,30 @@ public class UserController {
         userService.saveUser(u);
         logger.info("Debug: password updated for email={}", email);
         return new ApiResponse(true, "Password updated");
+    }
+
+    // -------------------------------
+    // DEBUG — Validate a token and return extracted email (dev-only)
+    // -------------------------------
+    @GetMapping("/debug/validate")
+    public ApiResponse debugValidate(@RequestParam String token) {
+        try {
+            if (token == null || token.isEmpty()) {
+                return new ApiResponse(false, "token is required");
+            }
+            String t = token.replaceAll("\\s+", "");
+            boolean valid = jwtUtil.validateToken(t);
+            String email = null;
+            if (valid) {
+                email = jwtUtil.extractEmail(t);
+            }
+            java.util.Map<String,Object> out = new java.util.HashMap<>();
+            out.put("valid", valid);
+            out.put("email", email);
+            return new ApiResponse(true, "Token checked", out);
+        } catch (Exception e) {
+            return new ApiResponse(false, "Error: " + e.getMessage());
+        }
     }
 
     // -------------------------------
